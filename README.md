@@ -32,15 +32,64 @@ Instalando libs adicionais para o desenvolvimento da API:
 python -m pip install -f requirements.txt
 ```
 
+## Antes de rodar
+
+Criar um arquivo **.env** com as seguintes variáveis para carregar o modelo
+
+```
+transformer_path=transform[84].joblib
+classifier_path=classifier[27].joblib
+```
+
+E também colocar os arquivos **transform[84].joblib** e **classifier[27].joblib** na raiz do projeto, no final a estrutura de pastas deve ficar da seguinte forma:
+
+```shell
+.
+├── README.md
+├── classifier[27].joblib
+├── requirements.txt
+├── src
+│   ├── __init__.py
+│   ├── config.py
+│   ├── data_model.py
+│   ├── main.py
+│   └── preprocess.py
+├── test_main.py
+└── transform[84].joblib
+```
+
 ## Rodar API FastAPI
 
-Para rodar a API localmente é preciso rodar o seguinte comando no terminal:
+Para rodar a API localmente é preciso rodar o seguinte comando no terminal depois de ativar o ambiente usando o comando `conda activate ml_eng_py38`:
 
 ```shell
 uvicorn main:app --host 127.0.0.1 --port 8000
 ```
 
-## Predict Single Input
+Com a API rodando é possível acessar **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs>)** para acessar uma interface da API ([Swagger UI](https://github.com/swagger-api/swagger-ui))
+
+## Testes
+
+É possível rodar os testes usando o comando:
+
+```shell
+$ pytest
+================================================ test session starts =================================================
+platform win32 -- Python 3.8.13, pytest-7.1.2, pluggy-1.0.0
+rootdir: C:\Users\iraqu\Developer\ml_engineering_serasa
+plugins: anyio-3.6.1
+collected 3 items
+
+test_main.py ...                                                                                                [100%]
+
+================================================= 3 passed in 1.80s ==================================================
+```
+
+## Descrição da API
+
+A API consiste em fazer a transformação e predição usando 3 endpoints com formato de dados de entrada distintos.
+
+### Predict Single Input
 
 É possível fazer predições de apenas uma entrada chamando o endpoint **/predict-single** com um json no seguinte formato:
 
@@ -52,7 +101,7 @@ uvicorn main:app --host 127.0.0.1 --port 8000
 }
 ```
 
-## Predict Batch Input
+### Predict Batch Input
 
 É possível fazer predições de várias entradas chamando o endpoint **/predict-batch** com um json no seguinte formato:
 
@@ -73,7 +122,7 @@ uvicorn main:app --host 127.0.0.1 --port 8000
 }
 ```
 
-## Predict CSV file Input
+### Predict CSV file Input
 
 É possível fazer predições de um arquivo com várias entradas chamando o endpoint **/predict-file** com um arquivo CSV no seguinte formato:
 
